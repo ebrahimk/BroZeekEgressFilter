@@ -1,0 +1,25 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "description": "server application for simulater networks using containers",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ebrahimk/BroZeekEgressFilter.git"
+  },
+  "author": "Kamron Ebrahimi",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ebrahimk/BroZeekEgressFilter/issues"
+  },
+  "homepage": "https://github.com/ebrahimk/BroZeekEgressFilter#readme",
+  "devDependencies": {
+    "eslint": "^7.0.0"
+  },
+  "dependencies": {
+    "chalk": "^4.0.0"
+  }
+}
