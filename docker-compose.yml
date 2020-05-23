@@ -75,6 +75,8 @@ services:
     build:
       context: ./busybox
       dockerfile: Dockerfile 
+    depends_on:
+      - reflection_router
     cap_add:
       - ALL
     environment:
@@ -84,6 +86,8 @@ services:
       - reflection_net
     stdin_open: true
     tty: true
+    deploy:
+      replicas: 4
   
 networks:
   # WAN network
@@ -116,3 +120,4 @@ networks:
         - subnet: 172.20.4.0/24
 
 # FOR openWRT containers command: ash -c "mkdir -p /var/lock && opkg update && opkg install uhttpd && opkg update && opkg install luci"
+# Run  docker-compose --compatibility up 
