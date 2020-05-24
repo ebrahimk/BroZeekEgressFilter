@@ -1,0 +1,48 @@
+version: "3"
+services:
+    elasticsearch:  # host name for target in filebeat.yml
+        image: "docker.elastic.co/elasticsearch/elasticsearch:7.7.0"
+        environment:
+            - "ES_JAVA_OPTS=-Xms1g -Xmx1g"
+            - "discovery.type=single-node"
+        ports:
+            - "9200:9200"
+            - "9300:9300"
+        networks:
+            - elks
+        volumes:
+            - ./data:/usr/share/elasticsearch/data
+
+    kibana:
+        image: "docker.elastic.co/kibana/kibana:7.7.0"
+        depends_on:
+            - elasticsearch
+        ports:
+            - "5601:5601"
+        networks:
+            - elks
+
+    filebeat:
+        image: "docker.elastic.co/beats/filebeat:7.7.0"
+        user: root
+        depends_on:
+            - elasticsearch
+        networks:
+            - elks
+        volumes:
+            - ./filebeat.yml:/usr/share/filebeat/filebeat.yml:ro
+            - ./zeek_logs:/var/log/zeek_logs
+
+    # Built with https://github.com/zeek/zeek-docker.git
+    # make --name=zeek build-stamp_3.0.0 
+    zeek:
+        image: 0124c23513dbaaa2d0ffb0d1d97d63920b331c6060228cee79e1827f924642d9
+        networks:
+            - elks
+        volumes:
+            - ./zeek_logs:/var/log/zeek_logs
+        command: bash -c "cd /var/log/zeek_logs && zeek -i eth0"    # pass custom sccript here
+
+networks:
+    elks:
+        driver: bridge
