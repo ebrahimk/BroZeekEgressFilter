@@ -45,3 +45,7 @@ You should see a response from the ping indicating that routing is working to an
 ## Elastic Stack
 
 The /elastic_stack directory contains a compose file for setting up containers running a Filebeat, Elastic Search and Kibana instance which read .log files in realtime from a Zeek instance running a container. The Kibana dashboard for visualizing these logs still needs to be completed. The Zeek script which demonstrates egress tagging can be injected into the container running zeek at runtime. 
+
+# TODO
+
+Complete Elastic stack logging, add Logstash instance for pre filtering log data, migrate all hardcoded IP addresses and container names to a .env file. 
