@@ -48,4 +48,6 @@ The /elastic_stack directory contains a compose file for setting up containers r
 
 # TODO
 
-Complete Elastic stack logging, add Logstash instance for pre filtering log data, migrate all hardcoded IP addresses and container names to a .env file. 
+- Complete Elastic stack logging 
+- Add Logstash instance for pre-filtering log data 
+- Migrate all hardcoded IP addresses and container names to a .env file. 
