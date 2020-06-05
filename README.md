@@ -42,6 +42,18 @@ $ ping <victimIpAddress>
 
 You should see a response from the ping indicating that routing is working to and from the subnet. 
 
+## Zeek Script
+
+The Zeek script created for this project produces log files containing the source and destination ip addresses, and a boolean which indicates if the packet's source IP was spoofed. 
+
+To run the Zeek instance: 
+
+```bash
+zeek -i <NETWORK_INTERFACE> main.zeek
+```
+
+The logs are stored in egress.log.
+
 ## Elastic Stack
 
 The /elastic_stack directory contains a compose file for setting up containers running a Filebeat, Elastic Search and Kibana instance which read .log files in realtime from a Zeek instance running a container. The Kibana dashboard for visualizing these logs still needs to be completed. The Zeek script which demonstrates egress tagging can be injected into the container running zeek at runtime. 
