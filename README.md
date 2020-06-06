@@ -52,7 +52,7 @@ To run the Zeek instance:
 zeek -i <NETWORK_INTERFACE> main.zeek
 ```
 
-The logs are stored in egress.log.
+The logs are stored in egress.log. A Zeek instance is run on the container behaving as the router for the attacker on the network. 
 
 ## Elastic Stack
 

@@ -36,13 +36,20 @@ services:
     # Built with https://github.com/zeek/zeek-docker.git
     # make --name=zeek build-stamp_3.0.0 
     zeek:
-        image: 0124c23513dbaaa2d0ffb0d1d97d63920b331c6060228cee79e1827f924642d9
+        image: "broplatform/bro:3.0.0"
+        environment:
+            - LOCAL_IP=172.20.1.15
         networks:
             - elks
         volumes:
             - ./zeek_logs:/var/log/zeek_logs
-        command: bash -c "cd /var/log/zeek_logs && zeek -i eth0"    # pass custom sccript here
+        command: bash -c "cd /var/log/zeek_logs && zeek -i eth0 main.zeek"    # pass custom script here
 
 networks:
     elks:
         driver: bridge
+        ipam:
+            driver: default
+            config:
+              - subnet: 172.20.1.0/24
+        

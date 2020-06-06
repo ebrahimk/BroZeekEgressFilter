@@ -14,4 +14,4 @@ output.elasticsearch:
 filebeat.inputs:
 - type: log
   paths:
-    - /var/log/zeek_logs/*.log
+    - /var/log/zeek_logs/egress.log
