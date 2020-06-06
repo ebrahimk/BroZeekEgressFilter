@@ -28,7 +28,7 @@ You can open a shell to any running container using the following command. Try t
 
 ```bash
 # get the ip address of the victim container
-$ docker inspect brozeekegressfilter_victim_1 | grep '"IPAddress"' | head -n 1
+$ docker inspect brozeekegressfilter_victim_1 | grep '"IPAddress"'
 
 # open a shell to a running container
 $ docker exec -it brozeekegressfilter_attacker_1 /bin/ash

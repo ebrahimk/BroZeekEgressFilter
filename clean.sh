@@ -4,8 +4,9 @@ docker-compose rm -f
 
 docker kill brozeekegressfilter_attacker_router_1 \
 			brozeekegressfilter_victim_router_1 \
+			brozeekegressfilter_reflection_router_1 \
 			brozeekegressfilter_victim_1 \
-			brozeekegressfilter_attacker_1 \ 
+			brozeekegressfilter_attacker_1 \
 
 docker container rm $(docker ps -a -q)
 
