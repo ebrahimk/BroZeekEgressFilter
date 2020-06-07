@@ -16,10 +16,15 @@ export {
     
 
 function egress_filter(h: pkt_hdr): bool
-    {
-    local l = to_addr(getenv("LOCAL_IP"));
-    if (l != h$ip$src && l != h$ip$dst) {
+{
+    local subNet = to_subnet(getenv("THIS_SUBNET"));
+    local src = mask_addr(h$ip$src, 24);
+    local dst = mask_addr(h$ip$dst, 24);
+    local subIp = subnet_to_addr(subNet);
+   
+    if (subNet != src && subNet != dst) {
         return T;
     }
+    
     return F; 
-    }
+}
