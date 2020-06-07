@@ -1,4 +1,5 @@
 @load egress
+@load policy/tuning/json-logs.zeek
 
 global pkt_count = 0;
 

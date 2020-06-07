@@ -20,3 +20,7 @@ docker network rm \
 	brozeekegressfilter_victim_net \
 	brozeekegressfilter_reflection_net \
 	brozeekegressfilter_router_net
+
+rm ./zeek/*.log
+rm -rf ./data/nodes
+

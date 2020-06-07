@@ -7,7 +7,7 @@ processors:
   - add_cloud_metadata: ~
   - add_docker_metadata: ~
 
-# pass as enviroment variable
+# service name of elastic search container
 output.elasticsearch:
   hosts: ["elasticsearch:9200"]
 
@@ -15,3 +15,5 @@ filebeat.inputs:
 - type: log
   paths:
     - /var/log/zeek_logs/egress.log
+  json.add_error_key: true
+
