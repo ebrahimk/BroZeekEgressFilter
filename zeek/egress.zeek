@@ -23,6 +23,9 @@ function egress_filter(h: pkt_hdr): bool
     local subIp = subnet_to_addr(subNet);
    
     if (subNet != src && subNet != dst) {
+        # if neither match, then the spoofed src address needs to be blocked
+        install_src_addr_filter(h$ip$src, 0, 1);
+        
         return T;
     }
     
