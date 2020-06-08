@@ -12,6 +12,6 @@ event zeek_init()
 event new_packet(c:connection, h:pkt_hdr)
     { 
     pkt_count += 1;
-    Log::write( Egress::LOG, [$num=pkt_count, $source=h$ip$src, 
-                                $destination=h$ip$dst, $spoofed=Egress::egress_filter(h)]);
+    Log::write( Egress::LOG, [$num=pkt_count, $source_ip=h$ip$src, 
+                                $destination_ip=h$ip$dst, $spoofed=Egress::egress_filter(h)]);
     }

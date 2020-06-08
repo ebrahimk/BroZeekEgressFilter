@@ -7,8 +7,8 @@ export {
     # Define a new type called Factor::Info.
     type Info: record {
         num:            count &log;
-        source:         addr &log;
-        destination:    addr &log;  
+        source_ip:         addr &log;
+        destination_ip:    addr &log;  
         spoofed:        bool &log;
         };
     global egress_filter: function(h: pkt_hdr): bool;
@@ -22,10 +22,8 @@ function egress_filter(h: pkt_hdr): bool
     local dst = mask_addr(h$ip$dst, 24);
     local subIp = subnet_to_addr(subNet);
    
-    if (subNet != src && subNet != dst) {
-        # if neither match, then the spoofed src address needs to be blocked
-        install_src_addr_filter(h$ip$src, 0, 1);
-        
+    if (subNet != src && subNet != dst) {    
+        print "dropping packet outside of subnet", h$ip$src;    
         return T;
     }
     
