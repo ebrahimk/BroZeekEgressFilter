@@ -15,9 +15,14 @@ services:
       - ./zeek:/var/log/zeek_logs
     environment: 
       - THIS_SUBNET=172.20.2.0/24
+    user: root
     # set LOCAL_IP to the ip address associated with eth0
     command: bash -c "ip route add 172.20.3.0/24 via 172.20.1.3 && 
-                      ip route add 172.20.4.0/24 via 172.20.1.4 && 
+                      ip route add 172.20.4.0/24 via 172.20.1.4 &&
+                      apt-get update &&
+                      apt-get -y install net-tools &&
+                      apt-get -y install tcpdump && 
+                      apt-get -y install iptables &&  
                       cd /var/log/zeek_logs && 
                       zeek -i eth0 main.zeek"
 
