@@ -23,7 +23,6 @@ function egress_filter(h: pkt_hdr): bool
     local subIp = subnet_to_addr(subNet);
    
     if (subNet != src && subNet != dst) {    
-        print "dropping packet outside of subnet", h$ip$src;    
         return T;
     }
     
