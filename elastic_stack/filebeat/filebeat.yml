@@ -23,5 +23,4 @@ filebeat.inputs:
     - /var/log/zeek_logs/egress.log
     - /var/log/zeek_logs/victim/victim.log
   json.keys_under_root: true
-  #json.add_error_key: true
 

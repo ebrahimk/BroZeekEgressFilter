@@ -1,6 +1,8 @@
 version: "3"
 
 services:
+
+  # Built with https://github.com/zeek/zeek-docker.git
   attacker_router:
     image: "broplatform/bro:3.0.0"
     cap_add:
@@ -16,7 +18,6 @@ services:
     environment: 
       - THIS_SUBNET=172.20.2.0/24
     user: root
-    # set LOCAL_IP to the ip address associated with eth0
     command: bash -c "ip route add 172.20.3.0/24 via 172.20.1.3 && 
                       ip route add 172.20.4.0/24 via 172.20.1.4 &&
                       apt-get update &&
@@ -39,7 +40,6 @@ services:
     volumes:
       - ./zeek/victim:/var/log/zeek_logs
     user: root
-    # set LOCAL_IP to the ip address associated with eth0
     command: bash -c "ip route add 172.20.2.0/24 via 172.20.1.2 && 
                       ip route add 172.20.4.0/24 via 172.20.1.4 && 
                       apt-get update &&
@@ -153,33 +153,6 @@ services:
       volumes:
           - ./elastic_stack/filebeat/filebeat.yml:/usr/share/filebeat/filebeat.yml:ro
           - ./zeek:/var/log/zeek_logs
-          
-  # filebeat_victim:
-  #     image: "docker.elastic.co/beats/filebeat:7.7.0"
-  #     user: root
-  #     depends_on:
-  #         - elasticsearch
-  #     networks:
-  #         - elks
-  #     volumes:
-  #         - ./elastic_stack/filebeat/filebeat.yml:/usr/share/filebeat/filebeat.yml:ro
-  #         - ./zeek:/var/log/zeek_logs
-
-
-  # Plain Zeek instance 
-  # Built with https://github.com/zeek/zeek-docker.git
-  # make --name=zeek build-stamp_3.0.0 
-  # zeek:
-  #     image: "broplatform/bro:3.0.0"
-  #     environment:
-  #         - LOCAL_IP=172.20.2.5           #ENV
-  #     networks:
-  #       elks:
-  #       attacker_net:
-  #         ipv4_address: "172.20.2.5"       #SHOULD WE PLACE THE ZEEK INSTANCE ON THE ROUTER?
-  #     volumes:
-  #         - ./zeek:/var/log/zeek_logs
-  #     command: bash -c "cd /var/log/zeek_logs && zeek -i eth0 main.zeek"   # ENV
       
 networks:
   # WAN network

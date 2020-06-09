@@ -58,8 +58,37 @@ The logs are stored in egress.log. A Zeek instance is run on the container behav
 
 The /elastic_stack directory contains a compose file for setting up containers running a Filebeat, Elastic Search and Kibana instance which read .log files in realtime from a Zeek instance running a container. The Kibana dashboard for visualizing these logs still needs to be completed. The Zeek script which demonstrates egress tagging can be injected into the container running zeek at runtime. 
 
-# TODO
+## Running the demo
 
-- Complete Elastic stack logging 
-- Add Logstash instance for pre-filtering log data 
-- Migrate all hardcoded IP addresses and container names to a .env file. 
+To execute the demo run the following commands.
+
+```bash
+$ ./setup.sh
+```
+
+This will spin up the entire container infrastructure with a Zeek instance on the victim container and the router for the attacker subnet.
+This will also start a Elastic Search, Filebeat and Kibana instances. Kibana is hosted on port 5601. To stage the attack open a shell to the attacker container. Zeek logs are collected from the router on the attacker subnet and the victim container. The are located at: "./zeek/egress.log" and "./zeek/victim/victim.log." They are automatically read in real time by Filebeat and pushed to the Elastic Search instance for easy monitoring with Kibana. The logs will not be generated unless network traffic starts. 
+
+```bash
+$ docker exec -it  brozeekegressfilter_attacker_1 /bin/bash
+```
+
+Now send a spoofed ping flood to the victim. 
+
+
+```bash
+$ hping3 -1 --rand-source 172.20.3.2 --flood
+```
+
+Verify that the link is saturated by opening a shell to a bystandard container and sending a ping to the victim:
+
+```bash
+$ docker exec -it brozeekegressfilter_reflection_1 /bin/bash
+$ ping 172.20.3.2
+```
+
+Create IPTable rule for Egress filtering out all spoofed IP addresses generated on the attacker subnet.
+
+```bash
+$ iptables -A FORWARD  -i eth0 ! -s 172.20.2.0/24  -j DROP
+```
