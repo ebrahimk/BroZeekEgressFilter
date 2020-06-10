@@ -64,6 +64,7 @@ To execute the demo run the following commands.
 
 ```bash
 $ ./setup.sh
+$ cd elastic_stack && docker-compose up
 ```
 
 This will spin up the entire container infrastructure with a Zeek instance on the victim container and the router for the attacker subnet.
@@ -87,8 +88,22 @@ $ docker exec -it brozeekegressfilter_reflection_1 /bin/bash
 $ ping 172.20.3.2
 ```
 
-Create IPTable rule for Egress filtering out all spoofed IP addresses generated on the attacker subnet.
+## Egress Filter
+
+Open a shell to the router on the attacker subnet. 
+
+```bash
+$ docker exec -it  brozeekegressfilter_attacker_router_1 /bin/bash
+```
+
+Create IPTable rule for Egress filtering out all spoofed IP addresses generated on the attacker subnet. 
 
 ```bash
 $ iptables -A FORWARD  -i eth0 ! -s 172.20.2.0/24  -j DROP
+```
+
+Verify that packets with spoofed IP's are getting caught.
+
+```bash
+$ iptables -L -v
 ```

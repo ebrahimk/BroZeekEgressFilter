@@ -1,9 +1,12 @@
 version: "3"
+
 services:
-    elasticsearch:  # host name for target in filebeat.yml
+
+  # Elastic stack containers
+    elasticsearch: 
         image: "docker.elastic.co/elasticsearch/elasticsearch:7.7.0"
         environment:
-            - "ES_JAVA_OPTS=-Xms1g -Xmx1g"
+            - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
             - "discovery.type=single-node"
         ports:
             - "9200:9200"
@@ -30,26 +33,9 @@ services:
         networks:
             - elks
         volumes:
-            - ./filebeat.yml:/usr/share/filebeat/filebeat.yml:ro
-            - ./zeek_logs:/var/log/zeek_logs
-
-    # Built with https://github.com/zeek/zeek-docker.git
-    # make --name=zeek build-stamp_3.0.0 
-    zeek:
-        image: "broplatform/bro:3.0.0"
-        environment:
-            - LOCAL_IP=172.20.1.15
-        networks:
-            - elks
-        volumes:
-            - ./zeek_logs:/var/log/zeek_logs
-        command: bash -c "cd /var/log/zeek_logs && zeek -i eth0 main.zeek"    # pass custom script here
+            - ./filebeat/filebeat.yml:/usr/share/filebeat/filebeat.yml:ro
+            - ./../zeek:/var/log/zeek_logs
 
 networks:
     elks:
         driver: bridge
-        ipam:
-            driver: default
-            config:
-              - subnet: 172.20.1.0/24
-        

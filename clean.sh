@@ -1,6 +1,7 @@
-#!/bin/bash
+#/bin/bash
 
 docker-compose rm -f
+pushd elastic_stack && docker-compose rm -f && popd
 
 docker kill brozeekegressfilter_attacker_router_1 \
 			brozeekegressfilter_victim_router_1 \
@@ -23,5 +24,5 @@ docker network rm \
 
 rm ./zeek/*.log
 rm ./zeek/victim/*.log
-rm -rf ./data/nodes
+rm -rf ./elastic_stack/data/nodes
 

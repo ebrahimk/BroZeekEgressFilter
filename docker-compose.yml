@@ -118,41 +118,6 @@ services:
     tty: true
     deploy:
       replicas: 4
-  
-
-  # Elastic stack containers
-  elasticsearch: 
-      image: "docker.elastic.co/elasticsearch/elasticsearch:7.7.0"
-      environment:
-          - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
-          - "discovery.type=single-node"
-      ports:
-          - "9200:9200"
-          - "9300:9300"
-      networks:
-          - elks
-      volumes:
-          - ./data:/usr/share/elasticsearch/data
-
-  kibana:
-      image: "docker.elastic.co/kibana/kibana:7.7.0"
-      depends_on:
-          - elasticsearch
-      ports:
-          - "5601:5601"
-      networks:
-          - elks
-
-  filebeat:
-      image: "docker.elastic.co/beats/filebeat:7.7.0"
-      user: root
-      depends_on:
-          - elasticsearch
-      networks:
-          - elks
-      volumes:
-          - ./elastic_stack/filebeat/filebeat.yml:/usr/share/filebeat/filebeat.yml:ro
-          - ./zeek:/var/log/zeek_logs
       
 networks:
   # WAN network
